@@ -1,4 +1,4 @@
-package farming;
+package insect;
 
 // Environment code for project jasonTeamSimLocal.mas2j
 
@@ -26,7 +26,7 @@ public class FarmingPlanet extends jason.environment.Environment {
     
     public static final int SIM_TIME = 60;  // in seconds
 
-    Term                    up       = Literal.parseLiteral("do(up)");
+    Term	                up = Literal.parseLiteral("do(up)");
     Term                    down     = Literal.parseLiteral("do(down)");
     Term                    right    = Literal.parseLiteral("do(right)");
     Term                    left     = Literal.parseLiteral("do(left)");

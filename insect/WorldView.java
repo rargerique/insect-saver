@@ -1,4 +1,4 @@
-package mining;
+package insect;
 
 import jason.environment.grid.GridWorldView;
 
@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
 
 public class WorldView extends GridWorldView {
 
-    MiningPlanet env = null;
+    FarmingPlanet env = null;
     
     public WorldView(WorldModel model) {
         super(model, "Mining World", 600);
@@ -34,7 +34,7 @@ public class WorldView extends GridWorldView {
         repaint();
     }
 
-    public void setEnv(MiningPlanet env) {
+    public void setEnv(FarmingPlanet env) {
         this.env = env;
         scenarios.setSelectedIndex(env.getSimId()-1);
     }
@@ -210,7 +210,7 @@ public class WorldView extends GridWorldView {
     }
     
     public static void main(String[] args) throws Exception {
-        MiningPlanet env = new MiningPlanet();
+        FarmingPlanet env = new FarmingPlanet();
         env.init(new String[] {"5","50","yes"});
     }
 }

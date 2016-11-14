@@ -1,4 +1,4 @@
-package mining;
+package insect;
 
 import jason.environment.grid.GridWorldModel;
 import jason.environment.grid.Location;
@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import mining.MiningPlanet.Move;
+import insect.FarmingPlanet.Move;
 
 public class WorldModel extends GridWorldModel {
 
