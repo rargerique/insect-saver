@@ -31,8 +31,8 @@ public class FarmingPlanet extends jason.environment.Environment {
     Term                    right    = Literal.parseLiteral("do(right)");
     Term                    left     = Literal.parseLiteral("do(left)");
     Term                    skip     = Literal.parseLiteral("do(skip)");
-    Term                    pick     = Literal.parseLiteral("do(pick)");
-    Term                    drop     = Literal.parseLiteral("do(drop)");
+    Term                    pick     = Literal.parseLiteral("do(picture)");
+    Term                    drop     = Literal.parseLiteral("do(insectcide)");
 
     public enum Move {
         UP, DOWN, RIGHT, LEFT

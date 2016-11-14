@@ -1,8 +1,1 @@
-[CentralisedEnvironment] Error in Centralised MAS environment creation
-java.lang.ArrayIndexOutOfBoundsException: 2
-	at insect.FarmingPlanet.init(FarmingPlanet.java:43)
-	at jason.infra.centralised.CentralisedEnvironment.<init>(CentralisedEnvironment.java:58)
-	at jason.infra.centralised.RunCentralisedMAS.createEnvironment(RunCentralisedMAS.java:392)
-	at jason.infra.centralised.RunCentralisedMAS.create(RunCentralisedMAS.java:205)
-	at jason.infra.centralised.RunCentralisedMAS.main(RunCentralisedMAS.java:98)
-
+[drone] hello world.

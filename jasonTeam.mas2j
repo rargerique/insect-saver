@@ -6,7 +6,7 @@
 MAS miners {
     infrastructure: Centralised
     
-    environment: insect.FarmingPlanet(200,200)
+    environment: insect.FarmingPlanet(3,50, yes)
 	
     agents:
         drone;
