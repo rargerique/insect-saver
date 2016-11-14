@@ -6,6 +6,8 @@ import jason.environment.grid.Location;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.io.IOException;
+import java.lang.InterruptedException;
 
 import insect.FarmingPlanet.Move;
 
@@ -15,6 +17,7 @@ public class WorldModel extends GridWorldModel {
     public static final int   DEPOT = 32;
     public static final int   ENEMY = 64;
 
+	public static final String soybeanRustDetectionPath = "/Users/Psidium/random/soybean-rust-detection/machine_learning/classify.py";
     Location                  depot;
     Set<Integer>              agWithGold;  // which agent is carrying gold
     int                       goldsInDepot   = 0;
@@ -122,6 +125,28 @@ public class WorldModel extends GridWorldModel {
         return true;
     }
 
+	String getPictureOfLocation(int x, int y) {
+		return "/Users/Psidium/random/soybean-rust-detection/machine_learning/neg_machine/neg_soybean_00001.JPG";
+	}
+	
+	boolean evaluatePlant(int ag) {
+		Location l = getAgPos(ag);
+		String path = getPictureOfLocation(l.x, l.y);
+		
+		ProcessBuilder pb = new ProcessBuilder("python", this.soybeanRustDetectionPath, "-i", path);
+
+		try {
+			Process p = pb.start();
+			p.waitFor();
+			int exitStatus = p.exitValue();
+			return exitStatus == 0;
+		} catch (IOException ex) {
+			return false;
+		} catch (InterruptedException ex) {
+			return false;
+		}
+	}
+	
     boolean pick(int ag) {
         Location l = getAgPos(ag);
         if (hasObject(WorldModel.GOLD, l.x, l.y)) {

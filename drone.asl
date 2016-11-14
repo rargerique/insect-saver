@@ -6,7 +6,21 @@
 
 !start.
 
+
 /* Plans */
 
-+!start : true <- .print("hello world.").
 
++!start : true <- .print("wait"); !evaluate; !printDiseased.
+
++!printDiseased: diseased
+  <- .print("is_diseasedd");
+  		!start.
++!printDiseaded: not diseased
+	<- .print("is clean");
+		!start.
+		
+		
++!printDiseased: true <- .print("did nothing").
+		
++!evaluate : true
+  <- do(evaluatePlant); +diseased; !printDiseased.

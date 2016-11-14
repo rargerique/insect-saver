@@ -31,7 +31,7 @@ public class FarmingPlanet extends jason.environment.Environment {
     Term                    right    = Literal.parseLiteral("do(right)");
     Term                    left     = Literal.parseLiteral("do(left)");
     Term                    skip     = Literal.parseLiteral("do(skip)");
-    Term                    pick     = Literal.parseLiteral("do(picture)");
+    Term                    evaluatePlant = Literal.parseLiteral("do(evaluatePlant)");
     Term                    drop     = Literal.parseLiteral("do(insectcide)");
 
     public enum Move {
@@ -68,7 +68,7 @@ public class FarmingPlanet extends jason.environment.Environment {
             }
             
             // get the agent id based on its name
-            int agId = getAgIdBasedOnName(ag);
+            int agId = 1;
 
             if (action.equals(up)) {
                 result = model.move(Move.UP, agId);
@@ -80,8 +80,8 @@ public class FarmingPlanet extends jason.environment.Environment {
                 result = model.move(Move.LEFT, agId);
             } else if (action.equals(skip)) {
                 result = true;
-            } else if (action.equals(pick)) {
-                result = model.pick(agId);
+            } else if (action.equals(evaluatePlant)) {
+                result = model.evaluatePlant(agId);
             } else if (action.equals(drop)) {
                 result = model.drop(agId);
                 view.udpateCollectedGolds();
