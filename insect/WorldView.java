@@ -29,7 +29,7 @@ public class WorldView extends GridWorldView {
     FarmingPlanet env = null;
     
     public WorldView(WorldModel model) {
-        super(model, "Mining World", 600);
+        super(model, "Mining World", 2000);
         setVisible(true);
         repaint();
     }
@@ -124,7 +124,7 @@ public class WorldView extends GridWorldView {
         
         getCanvas().addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                int col = e.getX() / cellSizeW;
+                /*int col = e.getX() / cellSizeW;
                 int lin = e.getY() / cellSizeH;
                 if (col >= 0 && lin >= 0 && col < getModel().getWidth() && lin < getModel().getHeight()) {
                     WorldModel wm = (WorldModel)model;
@@ -132,7 +132,7 @@ public class WorldView extends GridWorldView {
                     wm.setInitialNbGolds(wm.getInitialNbGolds()+1);
                     update(col, lin);
                     udpateCollectedGolds();
-                }
+                }*/
             }
             public void mouseExited(MouseEvent e) {}
             public void mouseEntered(MouseEvent e) {}
@@ -160,9 +160,9 @@ public class WorldView extends GridWorldView {
     @Override
     public void draw(Graphics g, int x, int y, int object) {
         switch (object) {
-        case WorldModel.DEPOT:   drawDepot(g, x, y);  break;
-        case WorldModel.GOLD:    drawGold(g, x, y);  break;
-        case WorldModel.ENEMY:   drawEnemy(g, x, y);  break;
+        case WorldModel.INFECTED:   drawDepot(g, x, y);  break;
+        case WorldModel.HEALTHY:    drawGold(g, x, y);  break;
+        //case WorldModel.ENEMY:   drawEnemy(g, x, y);  break;
         }
     }
 

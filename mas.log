@@ -1,2 +1,11 @@
 [drone] wait
+[FarmingPlanet] error executing do(evaluatePlant) for drone
+java.lang.NullPointerException
+	at insect.WorldModel.evaluatePlant(WorldModel.java:133)
+	at insect.FarmingPlanet.executeAction(FarmingPlanet.java:84)
+	at jason.environment.Environment$1.run(Environment.java:365)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
 [drone] No failure event was generated for +!evaluate[code(do(evaluatePlant)),code_line(26),code_src("drone.asl"),error(action_failed),error_msg(""),source(self)]
