@@ -33,31 +33,19 @@ public class WorldView extends GridWorldView {
         setVisible(true);
         repaint();
     }
-
-    public void setEnv(FarmingPlanet env) {
-        this.env = env;
-        scenarios.setSelectedIndex(1);
-    }
     
     JLabel    jlMouseLoc;
-    JComboBox scenarios;
     JSlider   jSpeed;
     JLabel    jGoldsC;
 
     @Override
     public void initComponents(int width) {
         super.initComponents(width);
-        scenarios = new JComboBox();
-        for (int i=1; i<=3; i++) {
-            scenarios.addItem(i);
-        }
         JPanel args = new JPanel();
         args.setLayout(new BoxLayout(args, BoxLayout.Y_AXIS));
 
         JPanel sp = new JPanel(new FlowLayout(FlowLayout.LEFT));
         sp.setBorder(BorderFactory.createEtchedBorder());
-        sp.add(new JLabel("Scenario:"));
-        sp.add(scenarios);
         
         jSpeed = new JSlider();
         jSpeed.setMinimum(0);
@@ -85,18 +73,12 @@ public class WorldView extends GridWorldView {
         msg.setBorder(BorderFactory.createEtchedBorder());
         
         p = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        p.add(new JLabel("Click on the cells to add new pieces of gold."));
-        msg.add(p);
         p = new JPanel(new FlowLayout(FlowLayout.CENTER));
         p.add(new JLabel("(mouse at:"));
         jlMouseLoc = new JLabel("0,0)");
         p.add(jlMouseLoc);
         msg.add(p);
         p = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        p.add(new JLabel("Collected golds:"));
-        jGoldsC = new JLabel("0");
-        p.add(jGoldsC);
-        msg.add(p);
 
         JPanel s = new JPanel(new BorderLayout());
         s.add(BorderLayout.WEST, args);
@@ -111,29 +93,9 @@ public class WorldView extends GridWorldView {
                 }
             }
         });
-
-        scenarios.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent ievt) {
-                /*int w = ((Integer)scenarios.getSelectedItem()).intValue();
-                if (env != null && env.getSimId() != w) {
-                    env.endSimulation();
-                    env.initWorld(w);
-                }*/
-            }            
-        });
         
         getCanvas().addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
-                /*int col = e.getX() / cellSizeW;
-                int lin = e.getY() / cellSizeH;
-                if (col >= 0 && lin >= 0 && col < getModel().getWidth() && lin < getModel().getHeight()) {
-                    WorldModel wm = (WorldModel)model;
-                    wm.add(WorldModel.GOLD, col, lin);
-                    wm.setInitialNbGolds(wm.getInitialNbGolds()+1);
-                    update(col, lin);
-                    udpateCollectedGolds();
-                }*/
-            }
+			public void mouseClicked(MouseEvent e) {}
             public void mouseExited(MouseEvent e) {}
             public void mouseEntered(MouseEvent e) {}
             public void mousePressed(MouseEvent e) {}
@@ -162,7 +124,6 @@ public class WorldView extends GridWorldView {
         switch (object) {
         case WorldModel.INFECTED:   drawDepot(g, x, y);  break;
         case WorldModel.HEALTHY:    drawGold(g, x, y);  break;
-        //case WorldModel.ENEMY:   drawEnemy(g, x, y);  break;
         }
     }
 
