@@ -16,9 +16,6 @@ public class FarmingPlanet extends jason.environment.Environment {
     
     WorldModel  model;
     WorldView   view;
-    
-    int     simId    = 3; // type of environment
-    int     nbWorlds = 3;
 
     int     sleep    = 0;
     boolean running  = true;
@@ -42,11 +39,7 @@ public class FarmingPlanet extends jason.environment.Environment {
     public void init(String[] args) {
         hasGUI = args[2].equals("yes"); 
         sleep  = Integer.parseInt(args[1]);
-        initWorld(Integer.parseInt(args[0]));
-    }
-    
-    public int getSimId() {
-        return simId;
+        initWorld();
     }
     
     public void setSleep(int s) {
@@ -103,20 +96,13 @@ public class FarmingPlanet extends jason.environment.Environment {
         return (Integer.parseInt(agName.substring(5))) - 1;
     }
     
-    public void initWorld(int w) {
-        simId = w;
+    public void initWorld() {
         try {
-            switch (w) {
-            case 1: model = WorldModel.world1(); break;
-            case 2: model = WorldModel.world1(); break;
-            case 3: model = WorldModel.world1(); break;
-            default:
-                logger.info("Invalid index!");
-                return;
-            }
+            model = WorldModel.world1(); 
+			
             clearPercepts();
-            addPercept(Literal.parseLiteral("gsize(" + simId + "," + model.getWidth() + "," + model.getHeight() + ")"));
-            addPercept(Literal.parseLiteral("depot(" + simId + "," + model.getDepot().x + "," + model.getDepot().y + ")"));
+            addPercept(Literal.parseLiteral("gsize(" + model.getWidth() + "," + model.getHeight() + ")"));
+            addPercept(Literal.parseLiteral("depot(" + model.getDepot().x + "," + model.getDepot().y + ")"));
             if (hasGUI) {
                 view = new WorldView(model);
                 view.setEnv(this);
@@ -130,7 +116,7 @@ public class FarmingPlanet extends jason.environment.Environment {
     }
     
     public void endSimulation() {
-        addPercept(Literal.parseLiteral("end_of_simulation(" + simId + ",0)"));
+        addPercept(Literal.parseLiteral("end_of_simulation(0)"));
         informAgsEnvironmentChanged();
         if (view != null) view.setVisible(false);
         WorldModel.destroy();
@@ -152,10 +138,6 @@ public class FarmingPlanet extends jason.environment.Environment {
         Location l = model.getAgPos(ag);
         addPercept(agName, Literal.parseLiteral("pos(" + l.x + "," + l.y + ")"));
 
-        if (model.isCarryingGold(ag)) {
-            addPercept(agName, Literal.parseLiteral("carrying_gold"));
-        }
-
         // what's around
         updateAgPercept(agName, l.x - 1, l.y - 1);
         updateAgPercept(agName, l.x - 1, l.y);
@@ -173,16 +155,6 @@ public class FarmingPlanet extends jason.environment.Environment {
         if (model == null || !model.inGrid(x,y)) return;
         if (model.hasObject(WorldModel.OBSTACLE, x, y)) {
             addPercept(agName, Literal.parseLiteral("cell(" + x + "," + y + ",obstacle)"));
-        } else {
-            /*if (model.hasObject(WorldModel.GOLD, x, y)) {
-                addPercept(agName, Literal.parseLiteral("cell(" + x + "," + y + ",gold)"));
-            }
-            if (model.hasObject(WorldModel.ENEMY, x, y)) {
-                addPercept(agName, Literal.parseLiteral("cell(" + x + "," + y + ",enemy)"));
-            }
-            if (model.hasObject(WorldModel.AGENT, x, y)) {
-                addPercept(agName, Literal.parseLiteral("cell(" + x + "," + y + ",ally)"));
-            }*/
         }
     }
 
