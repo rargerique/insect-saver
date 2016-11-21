@@ -111,6 +111,8 @@ public class WorldModel extends GridWorldModel {
     public void setInfectedArea(int x, int y) {
         depot = new Location(x, y);
         data[x][y] = INFECTED;
+        areaData[x][y].infection = INFECTED;
+        areaData[x][y].image = getRandomDiseasedImagePath();
     }
 
     public void setAgCarryingGold(int ag) {
@@ -150,9 +152,9 @@ public class WorldModel extends GridWorldModel {
     }
 
 	String getPictureOfLocation(int x, int y) {
-		return "/Users/Psidium/random/soybean-rust-detection/machine_learning/neg_machine/neg_soybean_00034.JPG";
+		return areaData[x][y].image;
 	}
-	
+
 	boolean evaluatePlant(int ag) {
 		Location l = getAgPos(ag);
 		String path = getPictureOfLocation(l.x, l.y);
