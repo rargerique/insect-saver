@@ -83,7 +83,7 @@ public class FarmingPlanet extends jason.environment.Environment {
             } else if (action.equals(evaluatePlant)) {
                 result = model.evaluatePlant(agId);
             } else if (action.equals(drop)) {
-                result = model.drop(agId);
+                //result = model.drop(agId);
                 view.udpateCollectedGolds();
             } else {
                 logger.info("executing: " + action + ", but not implemented!");
@@ -108,8 +108,8 @@ public class FarmingPlanet extends jason.environment.Environment {
         try {
             switch (w) {
             case 1: model = WorldModel.world1(); break;
-            case 2: model = WorldModel.world2(); break;
-            case 3: model = WorldModel.world3(); break;
+            case 2: model = WorldModel.world1(); break;
+            case 3: model = WorldModel.world1(); break;
             default:
                 logger.info("Invalid index!");
                 return;
@@ -174,7 +174,7 @@ public class FarmingPlanet extends jason.environment.Environment {
         if (model.hasObject(WorldModel.OBSTACLE, x, y)) {
             addPercept(agName, Literal.parseLiteral("cell(" + x + "," + y + ",obstacle)"));
         } else {
-            if (model.hasObject(WorldModel.GOLD, x, y)) {
+            /*if (model.hasObject(WorldModel.GOLD, x, y)) {
                 addPercept(agName, Literal.parseLiteral("cell(" + x + "," + y + ",gold)"));
             }
             if (model.hasObject(WorldModel.ENEMY, x, y)) {
@@ -182,7 +182,7 @@ public class FarmingPlanet extends jason.environment.Environment {
             }
             if (model.hasObject(WorldModel.AGENT, x, y)) {
                 addPercept(agName, Literal.parseLiteral("cell(" + x + "," + y + ",ally)"));
-            }
+            }*/
         }
     }
 
