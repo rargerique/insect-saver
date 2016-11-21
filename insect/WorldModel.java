@@ -136,17 +136,23 @@ public class WorldModel extends GridWorldModel {
 		ProcessBuilder pb = new ProcessBuilder("python", this.soybeanRustDetectionPath, "-i", path);
 
 		try {
+            System.out.println(" Tenta comecar");
 			Process p = pb.start();
+            System.out.println("comecou o processo");
 			p.waitFor();
+            System.out.println("terminou o processo");
 			int exitStatus = p.exitValue();
+            System.out.println("exit status eh " + exitStatus);
 			return exitStatus == 0;
 		} catch (IOException ex) {
+            System.out.println(" IOEXCEPTIO");
 			return false;
 		} catch (InterruptedException ex) {
+            System.out.println(" INTERRUPT EXCEPITP");
 			return false;
 		}
 	}
-	
+
     boolean pick(int ag) {
         Location l = getAgPos(ag);
         if (hasObject(WorldModel.GOLD, l.x, l.y)) {

@@ -15,7 +15,7 @@
 +!printDiseased: diseased
   <- .print("is_diseasedd");
   		!start.
-+!printDiseaded: not diseased
++!printDiseased: not diseased
 	<- .print("is clean");
 		!start.
 		
