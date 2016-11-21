@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.io.IOException;
+import java.io.File;
 import java.lang.InterruptedException;
 
 import insect.FarmingPlanet.Move;
@@ -17,7 +18,8 @@ public class WorldModel extends GridWorldModel {
     public static final int   DEPOT = 32;
     public static final int   ENEMY = 64;
 
-	public static final String soybeanRustDetectionPath = "/Users/Psidium/random/soybean-rust-detection/machine_learning/classify.py";
+	public static final String soybeanRustDetectionExec = "/Users/Psidium/random/soybean-rust-detection/machine_learning/apply_on_data.py";
+	public static final String soybeanRustDetectionPath = "/Users/Psidium/random/soybean-rust-detection/machine_learning/";
     Location                  depot;
     Set<Integer>              agWithGold;  // which agent is carrying gold
     int                       goldsInDepot   = 0;
@@ -126,23 +128,27 @@ public class WorldModel extends GridWorldModel {
     }
 
 	String getPictureOfLocation(int x, int y) {
-		return "/Users/Psidium/random/soybean-rust-detection/machine_learning/neg_machine/neg_soybean_00001.JPG";
+		return "/Users/Psidium/random/soybean-rust-detection/machine_learning/neg_machine/neg_soybean_00034.JPG";
 	}
 	
 	boolean evaluatePlant(int ag) {
 		Location l = getAgPos(ag);
 		String path = getPictureOfLocation(l.x, l.y);
 		
-		ProcessBuilder pb = new ProcessBuilder("python", this.soybeanRustDetectionPath, "-i", path);
+		ProcessBuilder pb = new ProcessBuilder("python3", this.soybeanRustDetectionExec, "-i", path);
 
 		try {
             System.out.println(" Tenta comecar");
+            pb.directory(new File(this.soybeanRustDetectionPath));
+            pb.redirectErrorStream(true);
+            pb.inheritIO();
 			Process p = pb.start();
             System.out.println("comecou o processo");
-			p.waitFor();
+			int exitStatus = p.waitFor();
             System.out.println("terminou o processo");
-			int exitStatus = p.exitValue();
             System.out.println("exit status eh " + exitStatus);
+            //exitStatus = 1 quando diseased
+            //exitStatus = 0 quando safe
 			return exitStatus == 0;
 		} catch (IOException ex) {
             System.out.println(" IOEXCEPTIO");
