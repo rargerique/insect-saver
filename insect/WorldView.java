@@ -36,7 +36,7 @@ public class WorldView extends GridWorldView {
 
     public void setEnv(FarmingPlanet env) {
         this.env = env;
-        scenarios.setSelectedIndex(env.getSimId()-1);
+        scenarios.setSelectedIndex(1);
     }
     
     JLabel    jlMouseLoc;
@@ -114,11 +114,11 @@ public class WorldView extends GridWorldView {
 
         scenarios.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent ievt) {
-                int w = ((Integer)scenarios.getSelectedItem()).intValue();
+                /*int w = ((Integer)scenarios.getSelectedItem()).intValue();
                 if (env != null && env.getSimId() != w) {
                     env.endSimulation();
                     env.initWorld(w);
-                }
+                }*/
             }            
         });
         
