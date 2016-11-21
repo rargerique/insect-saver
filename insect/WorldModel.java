@@ -12,6 +12,7 @@ import java.lang.InterruptedException;
 
 import insect.FarmingPlanet.Move;
 
+
 public class WorldModel extends GridWorldModel {
 
     public static final int   HEALTHY  = 16;
@@ -49,6 +50,7 @@ public class WorldModel extends GridWorldModel {
     private WorldModel(int w, int h, int nbAgs) {
         super(w, h, nbAgs);
         agWithGold = new HashSet<Integer>();
+        areaData = new [w][h];
     }
 
     public String getId() {
