@@ -11,6 +11,7 @@ import java.io.File;
 import java.lang.InterruptedException;
 
 import insect.FarmingPlanet.Move;
+import insect.LocationData;
 
 
 public class WorldModel extends GridWorldModel {
@@ -18,13 +19,17 @@ public class WorldModel extends GridWorldModel {
     public static final int   HEALTHY  = 16;
     public static final int   INFECTED = 32;
 
-	public static final String soybeanRustDetectionExec = "/Users/Psidium/random/soybean-rust-detection/machine_learning/apply_on_data.py";
 	public static final String soybeanRustDetectionPath = "/Users/Psidium/random/soybean-rust-detection/machine_learning/";
+	public static final String soybeanRustDetectionExec = WorldModel.soybeanRustDetectionPath + "apply_on_data.py";
+	public static final String soybeanRustDetectionSafeImagesPath = WorldModel.soybeanRustDetectionPath + "neg_machine/";
+	public static final String soybeanRustDetectionDiseasedImagesPath = WorldModel.soybeanRustDetectionPath + "pos_machine/";
+
     Location                  depot;
     Set<Integer>              agWithGold;  // which agent is carrying gold
     int                       goldsInDepot   = 0;
     int                       initialNbGolds = 0;
 
+    LocationData[][] areaData;
     private Logger            logger   = Logger.getLogger("jasonTeamSimLocal.mas2j." + WorldModel.class.getName());
 
     private String            id = "WorldModel";
@@ -50,7 +55,19 @@ public class WorldModel extends GridWorldModel {
     private WorldModel(int w, int h, int nbAgs) {
         super(w, h, nbAgs);
         agWithGold = new HashSet<Integer>();
-        areaData = new [w][h];
+        areaData = new LocationData[w][h];
+        for (int i =0; i<w; i++) {
+            for (int j=0; j<h; j++) {
+                areaData[i][j] = new LocationData();
+                areaData[i][j].infection = HEALTHY;
+                areaData[i][j].image = getRandomSafeImagePath();
+                areaData[i][j].groundLevel = (int)(Math.random() * 10.0);
+            }
+        }
+    }
+
+    public String getRandomSafeImagePath() {
+        return "";
     }
 
     public String getId() {
