@@ -53,6 +53,7 @@ public class WorldModel extends GridWorldModel {
         areaData = new LocationData[w][h];
         for (int i =0; i<w; i++) {
             for (int j=0; j<h; j++) {
+				data[i][j] = HEALTHY;
                 areaData[i][j] = new LocationData();
                 areaData[i][j].infection = HEALTHY;
                 areaData[i][j].image = getRandomSafeImagePath();
@@ -85,6 +86,13 @@ public class WorldModel extends GridWorldModel {
         areaData[x][y].infection = INFECTED;
         areaData[x][y].image = getRandomDiseasedImagePath();
     }
+	
+	public void setObstacle(int x, int y){
+		data[x][y] = OBSTACLE;
+		areaData[x][y].infection = OBSTACLE;
+		areaData[x][y].image = null;
+		areaData[x][y].groundLevel = 10;
+	}
 
     /** Actions **/
 
@@ -301,6 +309,10 @@ public class WorldModel extends GridWorldModel {
         }
 		
         model.setAgPos(0, 0, 0);
+		model.setObstacle(4, 4);
+		model.setObstacle(4, 5);
+		model.setObstacle(4, 6);
+		model.setObstacle(4, 7);
         return model;
     }
 
