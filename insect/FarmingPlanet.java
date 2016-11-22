@@ -102,11 +102,8 @@ public class FarmingPlanet extends jason.environment.Environment {
 			
             clearPercepts();
             addPercept(Literal.parseLiteral("gsize(" + model.getWidth() + "," + model.getHeight() + ")"));
-            addPercept(Literal.parseLiteral("depot(" + model.getDepot().x + "," + model.getDepot().y + ")"));
             if (hasGUI) {
                 view = new WorldView(model);
-                view.setEnv(this);
-                view.udpateCollectedGolds();
             }
             updateAgsPercept();        
             informAgsEnvironmentChanged();

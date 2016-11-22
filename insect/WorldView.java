@@ -109,14 +109,9 @@ public class WorldView extends GridWorldView {
                 int lin = e.getY() / cellSizeH;
                 if (col >= 0 && lin >= 0 && col < getModel().getWidth() && lin < getModel().getHeight()) {
                     jlMouseLoc.setText(col+","+lin+")");
-                }
+                } 
             }            
         });
-    }
-    
-    public void udpateCollectedGolds() {
-        WorldModel wm = (WorldModel)model;
-        jGoldsC.setText(wm.getGoldsInDepot() + "/" + wm.getInitialNbGolds());    
     }
 
     @Override
@@ -130,12 +125,8 @@ public class WorldView extends GridWorldView {
     @Override
     public void drawAgent(Graphics g, int x, int y, Color c, int id) {
         Color idColor = Color.black;
-        if (((WorldModel)model).isCarryingGold(id)) {
-            super.drawAgent(g, x, y, Color.yellow, -1);
-        } else {
-            super.drawAgent(g, x, y, c, -1);
-            idColor = Color.white;
-        }
+		super.drawAgent(g, x, y, c, -1);
+		idColor = Color.white;
         g.setColor(idColor);
         drawString(g, x, y, defaultFont, String.valueOf(id+1));
     }

@@ -25,12 +25,6 @@ public class WorldModel extends GridWorldModel {
 	public static final String soybeanRustDetectionSafeImagesPath = WorldModel.soybeanRustDetectionPath + "neg_machine/";
 	public static final String soybeanRustDetectionDiseasedImagesPath = WorldModel.soybeanRustDetectionPath + "pos_machine/";
 
-
-    Location                  depot;
-    Set<Integer>              agWithGold;  // which agent is carrying gold
-    int                       goldsInDepot   = 0;
-    int                       initialNbGolds = 0;
-
     LocationData[][] areaData;
     private Logger            logger   = Logger.getLogger("jasonTeamSimLocal.mas2j." + WorldModel.class.getName());
 
@@ -56,7 +50,6 @@ public class WorldModel extends GridWorldModel {
 
     private WorldModel(int w, int h, int nbAgs) {
         super(w, h, nbAgs);
-        agWithGold = new HashSet<Integer>();
         areaData = new LocationData[w][h];
         for (int i =0; i<w; i++) {
             for (int j=0; j<h; j++) {
@@ -75,52 +68,22 @@ public class WorldModel extends GridWorldModel {
     public String getRandomDiseasedImagePath() {
         return this.soybeanRustDetectionDiseasedImagesPath + this.pos_file[(int)(Math.random() * this.pos_file.length)];
     }
+	
     public String getId() {
         return id;
     }
     public void setId(String id) {
         this.id = id;
     }
+	
     public String toString() {
         return id;
     }
-    
-    public Location getDepot() {
-        return depot;
-    }
-
-    public int getGoldsInDepot() {
-        return goldsInDepot;
-    }
-    
-    public boolean isAllGoldsCollected() {
-        return goldsInDepot == initialNbGolds;
-    }
-    
-    public void setInitialNbGolds(int i) {
-        initialNbGolds = i;
-    }
-    
-    public int getInitialNbGolds() {
-        return initialNbGolds;
-    }
-
-    public boolean isCarryingGold(int ag) {
-        return agWithGold.contains(ag);
-    }
 
     public void setInfectedArea(int x, int y) {
-        depot = new Location(x, y);
         data[x][y] = INFECTED;
         areaData[x][y].infection = INFECTED;
         areaData[x][y].image = getRandomDiseasedImagePath();
-    }
-
-    public void setAgCarryingGold(int ag) {
-        agWithGold.add(ag);
-    }
-    public void setAgNotCarryingGold(int ag) {
-        agWithGold.remove(ag);
     }
 
     /** Actions **/
@@ -163,7 +126,7 @@ public class WorldModel extends GridWorldModel {
 		ProcessBuilder pb = new ProcessBuilder("python3", this.soybeanRustDetectionExec, "-i", path);
 
 		try {
-            System.out.println(" Tenta comecar");
+            System.out.println("Tenta comecar");
             pb.directory(new File(this.soybeanRustDetectionPath));
             pb.redirectErrorStream(true);
             pb.inheritIO();
@@ -252,14 +215,12 @@ public class WorldModel extends GridWorldModel {
     }
     */
 
-    
-    /** no gold/no obstacle world */
     static WorldModel world1() throws Exception {
         // Define o tamanho total da matriz
         int maxX = 200;
         int maxY = 200;
         WorldModel model = WorldModel.create(maxX, maxY, 1);
-    //instância um objeto da classe Random usando o construtor básico
+		//instância um objeto da classe Random usando o construtor básico
         Random gerador = new Random();
 
         int a = gerador.nextInt(10);
@@ -338,12 +299,7 @@ public class WorldModel extends GridWorldModel {
             }
 
         }
-
-		model.setInfectedArea(4, 4);
-		model.setInfectedArea(4, 10);
-		model.setInfectedArea(15, 18);
-		model.setInfectedArea(20, 20);
-		model.setInfectedArea(7, 7);
+		
         model.setAgPos(0, 0, 0);
         return model;
     }
@@ -593,7 +549,6 @@ public class WorldModel extends GridWorldModel {
     };
 
     public boolean isInfected(int x,int y) {
-
         if (data[x][y] == INFECTED) {
             return true;
         }
