@@ -6,6 +6,7 @@ import jason.environment.grid.Location;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.Random;
 import java.io.IOException;
 import java.io.File;
 import java.lang.InterruptedException;
@@ -254,7 +255,90 @@ public class WorldModel extends GridWorldModel {
     
     /** no gold/no obstacle world */
     static WorldModel world1() throws Exception {
-        WorldModel model = WorldModel.create(200, 200, 1);
+        // Define o tamanho total da matriz
+        int maxX = 200;
+        int maxY = 200;
+        WorldModel model = WorldModel.create(maxX, maxY, 1);
+    //instância um objeto da classe Random usando o construtor básico
+        Random gerador = new Random();
+
+        int a = gerador.nextInt(10);
+        System.out.println("criou " + a  + "instancias");
+        // Define um número de áreas aleatórias até 10 para estarem infectadas
+        for (int b = a; b >= 0; b-- ) {
+
+            System.out.println("iteração número " + b);
+
+            //Define aleatoriamente um ponto x,y para estar infectado
+            int infectedX =  gerador.nextInt(maxX);
+            int infectedY =  gerador.nextInt(maxY);
+
+            System.out.println("Selecionou área  " + infectedX  + ", " + infectedY);
+
+            model.setInfectedArea(infectedX, infectedY);
+
+            //Define valor aleatório de tamanho de área infectada, até 10% do tamanho total
+            int xRay = gerador.nextInt(maxX/10);
+            int yRay = gerador.nextInt(maxY/10);
+
+            System.out.println("Definiou raio de  " + xRay  + ", " + yRay);
+
+
+            // garante que não vai estrapolar a área
+            if ((infectedX - xRay) < 0 || (xRay + infectedX) > maxX) {
+                System.out.println("skipou por causa de x");
+                continue;
+            }
+
+            if ((infectedY - yRay) < 0 || (yRay + infectedY) > maxY) {
+                System.out.println("skipou por causa de y");
+                continue;
+            }
+
+            for (int i = infectedY - yRay; i <= (infectedY + yRay) ; i++) {
+            
+                for (int j= infectedX - xRay; j <= (infectedX + xRay) ; j++) {
+                    boolean infect = false;
+                    if ((i < infectedY && model.isInfected(i-1, j)) || (i > infectedY && model.isInfected(i+1, j))){
+                        infect = true;
+                    }
+                    if ((j < infectedX && model.isInfected(i, j-1)) || (j > infectedX && model.isInfected(i, j+1))){
+                        infect = true;
+                    }
+
+
+                    if(!infect) {
+                       infect = gerador.nextBoolean();
+                    }
+                    if (infect) {
+                        model.setInfectedArea(i, j);
+                    }
+                }                 
+
+            }
+
+            for (int i = infectedY + yRay; i >= infectedY ; i--) {
+            
+                for (int j= infectedX + xRay; j >= infectedX ; j--) {
+
+                    boolean infect = false;
+                    if (model.isInfected(i+1, j)) {
+                        infect = true;
+                    }
+                    if (model.isInfected(i, j+1)){
+                        infect = true;
+                    }
+                    if(!infect) {
+                       infect = gerador.nextBoolean();
+                    }
+                    if (infect) {
+                        model.setInfectedArea(i, j);
+                    }
+                }
+            }
+
+        }
+
 		model.setInfectedArea(4, 4);
 		model.setInfectedArea(4, 10);
 		model.setInfectedArea(15, 18);
@@ -507,4 +591,12 @@ public class WorldModel extends GridWorldModel {
         "neg_soybean_00046.jpg",
         "neg_soybean_00047.jpg"
     };
+
+    public boolean isInfected(int x,int y) {
+
+        if (data[x][y] == INFECTED) {
+            return true;
+        }
+        return false;
+    }
 }
