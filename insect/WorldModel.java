@@ -228,6 +228,14 @@ public class WorldModel extends GridWorldModel {
         int maxX = 200;
         int maxY = 200;
         WorldModel model = WorldModel.create(maxX, maxY, 1);
+		createCrazyRandomPatterns(model, true, maxX, maxY);
+		createCrazyRandomPatterns(model, false, maxX/10, maxY/10);
+		
+        model.setAgPos(0, 0, 0);
+        return model;
+    }
+	
+	static void createCrazyRandomPatterns(WorldModel model, boolean infected, int maxX, int maxY) throws Exception{
 		//instância um objeto da classe Random usando o construtor básico
         Random gerador = new Random();
 
@@ -244,7 +252,11 @@ public class WorldModel extends GridWorldModel {
 
             System.out.println("Selecionou área  " + infectedX  + ", " + infectedY);
 
-            model.setInfectedArea(infectedX, infectedY);
+			if(infected){
+				model.setInfectedArea(infectedX, infectedY);
+			} else{
+				model.setObstacle(infectedX, infectedY);
+			}
 
             //Define valor aleatório de tamanho de área infectada, até 10% do tamanho total
             int xRay = gerador.nextInt(maxX/10);
@@ -280,7 +292,11 @@ public class WorldModel extends GridWorldModel {
                        infect = gerador.nextBoolean();
                     }
                     if (infect) {
-                        model.setInfectedArea(i, j);
+						if(infected){
+							model.setInfectedArea(i, j);
+						} else{
+							model.setObstacle(i, j);
+						}
                     }
                 }                 
 
@@ -301,20 +317,17 @@ public class WorldModel extends GridWorldModel {
                        infect = gerador.nextBoolean();
                     }
                     if (infect) {
-                        model.setInfectedArea(i, j);
+						if(infected){
+							model.setInfectedArea(i, j);
+						} else{
+							model.setObstacle(i, j);
+						}
                     }
                 }
             }
 
         }
-		
-        model.setAgPos(0, 0, 0);
-		model.setObstacle(4, 4);
-		model.setObstacle(4, 5);
-		model.setObstacle(4, 6);
-		model.setObstacle(4, 7);
-        return model;
-    }
+	}
 
     public static final String[] pos_file = {
         "pos_soybean_00001.jpg",
