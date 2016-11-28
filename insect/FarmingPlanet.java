@@ -59,9 +59,8 @@ public class FarmingPlanet extends jason.environment.Environment {
             if (sleep > 0) {
                 Thread.sleep(sleep);
             }
-            
-            // get the agent id based on its name
-            int agId = 1;
+
+            int agId = 0;
 
             if (action.equals(up)) {
                 result = model.move(Move.UP, agId);
@@ -75,6 +74,13 @@ public class FarmingPlanet extends jason.environment.Environment {
                 result = true;
             } else if (action.equals(evaluatePlant)) {
                 result = model.evaluatePlant(agId);
+                Location l = model.getAgPos(agId);
+                if (result) {
+                    addPercept("drone", Literal.parseLiteral("safe_plant(" + l.x + "," + l.y + ")"));
+                } else {
+                    addPercept("drone", Literal.parseLiteral("diseased_plant(" + l.x + "," + l.y + ")"));
+                }
+                result = true;
             } else if (action.equals(drop)) {
                 //result = model.drop(agId);
                 view.udpateCollectedGolds();
@@ -105,7 +111,7 @@ public class FarmingPlanet extends jason.environment.Environment {
             addPercept(Literal.parseLiteral("depot(" + model.getDepot().x + "," + model.getDepot().y + ")"));
             if (hasGUI) {
                 view = new WorldView(model);
-                view.setEnv(this);
+                //view.setEnv(this);
                 view.udpateCollectedGolds();
             }
             updateAgsPercept();        

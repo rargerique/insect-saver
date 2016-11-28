@@ -2,6 +2,8 @@
 
 /* Initial beliefs and rules */
 
+
+
 /* Initial goals */
 
 !start.
@@ -10,17 +12,15 @@
 /* Plans */
 
 
-+!start : true <- .print("wait"); !evaluate; !printDiseased.
++!start: true <- .print("wait"); do(evaluatePlant); !test_plant.
 
-+!printDiseased: diseased
+
++!test_plant: diseased_plant(X,Y)
   <- .print("is_diseasedd");
   		!start.
-+!printDiseased: not diseased
-	<- .print("is clean");
+		
++!test_plant: safe_plant(X,Y)
+	<- .print("is clean", X, Y);
+		do(down);
 		!start.
-		
-		
-+!printDiseased: true <- .print("did nothing").
-		
-+!evaluate : true
-  <- do(evaluatePlant); +diseased; !printDiseased.
+  

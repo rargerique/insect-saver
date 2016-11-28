@@ -157,8 +157,12 @@ public class WorldModel extends GridWorldModel {
 	}
 
 	boolean evaluatePlant(int ag) {
+        System.out.println("entrou no evaluate com o agente " + ag);
 		Location l = getAgPos(ag);
-		String path = getPictureOfLocation(l.x, l.y);
+        if (l == null) {
+            System.out.println("where da fuck am I");
+        }
+		String path = this.getPictureOfLocation(l.x, l.y);
 		
 		ProcessBuilder pb = new ProcessBuilder("python3", this.soybeanRustDetectionExec, "-i", path);
 
