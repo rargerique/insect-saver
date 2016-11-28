@@ -8,12 +8,12 @@ public class InsectResult {
         results = new double[width][height];
     }
 
-    public void setDiseased(int x, int y) {
+    public void setInfected(int x, int y) {
         results[x][y] = 1.0;
     }
 
-    public void setClean(int x, int y) {
-        results[x][y] = 1.0;
+    public void setHealthy(int x, int y) {
+        results[x][y] = 0.0;
     }
 
     //create output

@@ -6,8 +6,10 @@
 MAS miners {
     infrastructure: Centralised
     
-    environment: insect.FarmingPlanet(3,50, yes)
-	
+    environment: insect.FarmingPlanet(3,0, yes)
+	        // parameters: 1. environment configuration id (from 1 to 3)
+        //             2. sleep time (in ms) after each action
+        //             3. whether display the gui
     agents:
         drone;
 }

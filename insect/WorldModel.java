@@ -19,6 +19,8 @@ public class WorldModel extends GridWorldModel {
 
     public static final int   HEALTHY  = 16;
     public static final int   INFECTED = 32;
+    public static final int   POST_INFECTED = 64;
+    public static final int   POST_HEALTHY = 128;
 
 	public static final String soybeanRustDetectionPath = "/Users/Psidium/random/soybean-rust-detection/machine_learning/";
 	public static final String soybeanRustDetectionExec = WorldModel.soybeanRustDetectionPath + "apply_on_data.py";
@@ -32,6 +34,7 @@ public class WorldModel extends GridWorldModel {
     int                       initialNbGolds = 0;
 
     LocationData[][] areaData;
+    InsectResult results;
     private Logger            logger   = Logger.getLogger("jasonTeamSimLocal.mas2j." + WorldModel.class.getName());
 
     private String            id = "WorldModel";
@@ -58,6 +61,7 @@ public class WorldModel extends GridWorldModel {
         super(w, h, nbAgs);
         agWithGold = new HashSet<Integer>();
         areaData = new LocationData[w][h];
+        results = new InsectResult(w,h);
         for (int i =0; i<w; i++) {
             for (int j=0; j<h; j++) {
                 areaData[i][j] = new LocationData();
@@ -109,6 +113,15 @@ public class WorldModel extends GridWorldModel {
         return agWithGold.contains(ag);
     }
 
+    public void setPostInfected(int x, int y) {
+        data[x][y] = POST_INFECTED;
+        results.setInfected(x, y);
+    }
+
+    public void setPostHealthy(int x, int y) {
+        data[x][y] = POST_HEALTHY;
+    }
+
     public void setInfectedArea(int x, int y) {
         depot = new Location(x, y);
         data[x][y] = INFECTED;
@@ -127,29 +140,34 @@ public class WorldModel extends GridWorldModel {
 
     boolean move(Move dir, int ag) throws Exception {
         Location l = getAgPos(ag);
+        boolean out = false;
         switch (dir) {
         case UP:
             if (isFree(l.x, l.y - 1)) {
                 setAgPos(ag, l.x, l.y - 1);
+                out = true;
             }
             break;
         case DOWN:
             if (isFree(l.x, l.y + 1)) {
                 setAgPos(ag, l.x, l.y + 1);
+                out = true;
             }
             break;
         case RIGHT:
             if (isFree(l.x + 1, l.y)) {
                 setAgPos(ag, l.x + 1, l.y);
+                out = true;
             }
             break;
         case LEFT:
             if (isFree(l.x - 1, l.y)) {
                 setAgPos(ag, l.x - 1, l.y);
+                out = true;
             }
             break;
         }
-        return true;
+        return out;
     }
 
 	String getPictureOfLocation(int x, int y) {
@@ -178,7 +196,11 @@ public class WorldModel extends GridWorldModel {
             System.out.println("exit status eh " + exitStatus);
             //exitStatus = 1 quando diseased
             //exitStatus = 0 quando safe
-			return exitStatus == 0;
+			boolean safe = exitStatus == 0;
+            if (safe) {
+                setPostHealthy(l.x, l.y);
+            }
+            return safe;
 		} catch (IOException ex) {
             System.out.println(" IOEXCEPTIO");
 			return false;
@@ -187,6 +209,15 @@ public class WorldModel extends GridWorldModel {
 			return false;
 		}
 	}
+
+    boolean insectcide(int ag) {
+		Location l = getAgPos(ag);
+        if (l == null) {
+            System.out.println("where da fuck am I in the insecticide");
+        }
+        setPostInfected(l.x, l.y);
+        return true;
+    }
 
     /*boolean pick(int ag) {
         Location l = getAgPos(ag);

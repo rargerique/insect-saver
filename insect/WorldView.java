@@ -122,8 +122,18 @@ public class WorldView extends GridWorldView {
     @Override
     public void draw(Graphics g, int x, int y, int object) {
         switch (object) {
-        case WorldModel.INFECTED:   drawDepot(g, x, y);  break;
-        case WorldModel.HEALTHY:    drawGold(g, x, y);  break;
+            case WorldModel.INFECTED:
+                drawPreInfected(g, x, y);
+                break;
+            case WorldModel.POST_INFECTED:
+                drawPostInfected(g, x, y);
+                break;
+            case WorldModel.HEALTHY:
+                drawPreHealthy(g, x, y);
+                break;
+            case WorldModel.POST_HEALTHY:
+                drawPostHealthy(g, x , y);
+                break;
         }
     }
 
@@ -140,17 +150,17 @@ public class WorldView extends GridWorldView {
         drawString(g, x, y, defaultFont, String.valueOf(id+1));
     }
 
-    public void drawDepot(Graphics g, int x, int y) {
+    public void drawPreInfected(Graphics g, int x, int y) {
         g.setColor(Color.gray);
         g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
-        g.setColor(Color.pink);
+        g.setColor(Color.orange);
         g.drawRect(x * cellSizeW + 2, y * cellSizeH + 2, cellSizeW - 4, cellSizeH - 4);
         g.drawLine(x * cellSizeW + 2, y * cellSizeH + 2, (x + 1) * cellSizeW - 2, (y + 1) * cellSizeH - 2);
         g.drawLine(x * cellSizeW + 2, (y + 1) * cellSizeH - 2, (x + 1) * cellSizeW - 2, y * cellSizeH + 2);
     }
 
-    public void drawGold(Graphics g, int x, int y) {
-        g.setColor(Color.yellow);
+    public void drawPreHealthy(Graphics g, int x, int y) {
+        g.setColor(Color.white);
         g.drawRect(x * cellSizeW + 2, y * cellSizeH + 2, cellSizeW - 4, cellSizeH - 4);
         int[] vx = new int[4];
         int[] vy = new int[4];
@@ -165,8 +175,13 @@ public class WorldView extends GridWorldView {
         g.fillPolygon(vx, vy, 4);
     }
 
-    public void drawEnemy(Graphics g, int x, int y) {
+    public void drawPostInfected(Graphics g, int x, int y) {
         g.setColor(Color.red);
+        g.fillOval(x * cellSizeW + 7, y * cellSizeH + 7, cellSizeW - 8, cellSizeH - 8);
+    }
+
+    public void drawPostHealthy(Graphics g, int x, int y) {
+        g.setColor(Color.cyan);
         g.fillOval(x * cellSizeW + 7, y * cellSizeH + 7, cellSizeW - 8, cellSizeH - 8);
     }
     

@@ -23,11 +23,12 @@ public class FarmingPlanet extends jason.environment.Environment {
     
     public static final int SIM_TIME = 60;  // in seconds
 
-    Term	                up = Literal.parseLiteral("do(up)");
+
+    Term                    up       = Literal.parseLiteral("do(up)");
     Term                    down     = Literal.parseLiteral("do(down)");
     Term                    right    = Literal.parseLiteral("do(right)");
     Term                    left     = Literal.parseLiteral("do(left)");
-    Term                    skip     = Literal.parseLiteral("do(skip)");
+    Term                    skip = Literal.parseLiteral("do(skip)");
     Term                    evaluatePlant = Literal.parseLiteral("do(evaluatePlant)");
     Term                    drop     = Literal.parseLiteral("do(insectcide)");
 
@@ -76,8 +77,10 @@ public class FarmingPlanet extends jason.environment.Environment {
                 result = model.evaluatePlant(agId);
                 Location l = model.getAgPos(agId);
                 if (result) {
+                    System.out.println("mandando safe_plant pro esquema");
                     addPercept("drone", Literal.parseLiteral("safe_plant(" + l.x + "," + l.y + ")"));
                 } else {
+                    System.out.println("mandando diseased pro esquema");
                     addPercept("drone", Literal.parseLiteral("diseased_plant(" + l.x + "," + l.y + ")"));
                 }
                 result = true;
@@ -135,13 +138,14 @@ public class FarmingPlanet extends jason.environment.Environment {
     }
 
     private void updateAgPercept(int ag) {
-        updateAgPercept("miner" + (ag + 1), ag);
+        updateAgPercept("drone", ag);
     }
 
     private void updateAgPercept(String agName, int ag) {
         clearPercepts(agName);
         // its location
         Location l = model.getAgPos(ag);
+        System.out.println("sending pos to the machineeee");
         addPercept(agName, Literal.parseLiteral("pos(" + l.x + "," + l.y + ")"));
 
         // what's around
