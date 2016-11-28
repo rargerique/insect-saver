@@ -139,50 +139,43 @@ public class WorldView extends GridWorldView {
 
     @Override
     public void drawAgent(Graphics g, int x, int y, Color c, int id) {
-        Color idColor = Color.black;
-        if (((WorldModel)model).isCarryingGold(id)) {
-            super.drawAgent(g, x, y, Color.yellow, -1);
-        } else {
-            super.drawAgent(g, x, y, c, -1);
-            idColor = Color.white;
-        }
-        g.setColor(idColor);
-        drawString(g, x, y, defaultFont, String.valueOf(id+1));
+        c = Color.blue;
+		super.drawAgent(g, x, y, c, -1);
+		
+		g.setColor(Color.blue);
+		g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
     }
 
     public void drawPreInfected(Graphics g, int x, int y) {
-        g.setColor(Color.gray);
+		g.setColor(Color.yellow);
         g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
-        g.setColor(Color.orange);
-        g.drawRect(x * cellSizeW + 2, y * cellSizeH + 2, cellSizeW - 4, cellSizeH - 4);
-        g.drawLine(x * cellSizeW + 2, y * cellSizeH + 2, (x + 1) * cellSizeW - 2, (y + 1) * cellSizeH - 2);
-        g.drawLine(x * cellSizeW + 2, (y + 1) * cellSizeH - 2, (x + 1) * cellSizeW - 2, y * cellSizeH + 2);
+
+		g.setColor(Color.gray);
+        g.drawRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
     }
 
     public void drawPreHealthy(Graphics g, int x, int y) {
         g.setColor(Color.white);
-        g.drawRect(x * cellSizeW + 2, y * cellSizeH + 2, cellSizeW - 4, cellSizeH - 4);
-        int[] vx = new int[4];
-        int[] vy = new int[4];
-        vx[0] = x * cellSizeW + (cellSizeW / 2);
-        vy[0] = y * cellSizeH;
-        vx[1] = (x + 1) * cellSizeW;
-        vy[1] = y * cellSizeH + (cellSizeH / 2);
-        vx[2] = x * cellSizeW + (cellSizeW / 2);
-        vy[2] = (y + 1) * cellSizeH;
-        vx[3] = x * cellSizeW;
-        vy[3] = y * cellSizeH + (cellSizeH / 2);
-        g.fillPolygon(vx, vy, 4);
+        g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
+
+		g.setColor(Color.gray);
+        g.drawRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
     }
 
     public void drawPostInfected(Graphics g, int x, int y) {
         g.setColor(Color.red);
-        g.fillOval(x * cellSizeW + 7, y * cellSizeH + 7, cellSizeW - 8, cellSizeH - 8);
+        g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
+
+		g.setColor(Color.gray);
+        g.drawRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
     }
 
     public void drawPostHealthy(Graphics g, int x, int y) {
-        g.setColor(Color.cyan);
-        g.fillOval(x * cellSizeW + 7, y * cellSizeH + 7, cellSizeW - 8, cellSizeH - 8);
+        g.setColor(Color.green);
+        g.fillRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
+
+		g.setColor(Color.gray);
+        g.drawRect(x * cellSizeW, y * cellSizeH, cellSizeW, cellSizeH);
     }
     
     public static void main(String[] args) throws Exception {

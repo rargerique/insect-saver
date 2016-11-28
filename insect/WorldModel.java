@@ -128,6 +128,12 @@ public class WorldModel extends GridWorldModel {
         areaData[x][y].infection = INFECTED;
         areaData[x][y].image = getRandomDiseasedImagePath();
     }
+	
+	public void setObstacle(int x, int y){
+		data[x][y] = OBSTACLE;
+		areaData[x][y].infection = OBSTACLE;
+		areaData[x][y].image = null;		
+	}
 
     public void setAgCarryingGold(int ag) {
         agWithGold.add(ag);
@@ -374,11 +380,34 @@ public class WorldModel extends GridWorldModel {
 
         }
 
-		model.setInfectedArea(4, 4);
-		model.setInfectedArea(4, 10);
-		model.setInfectedArea(15, 18);
-		model.setInfectedArea(20, 20);
-		model.setInfectedArea(7, 7);
+		model.setObstacle(4, 4);
+		model.setObstacle(4, 10);
+		model.setObstacle(15, 18);
+		model.setObstacle(20, 20);
+		model.setObstacle(9, 4);
+		model.setObstacle(14, 3);
+		model.setObstacle(17, 2);
+		model.setObstacle(1, 6);
+		model.setObstacle(3, 8);
+		model.setObstacle(4, 12);
+		model.setObstacle(3, 16);
+		model.setObstacle(6, 8);
+		model.setObstacle(14, 15);
+		model.setObstacle(16, 17);
+		
+		model.setObstacle(40, 40);
+		model.setObstacle(40, 100);
+		model.setObstacle(150, 180);
+		model.setObstacle(90, 40);
+		model.setObstacle(140, 30);
+		model.setObstacle(107, 20);
+		model.setObstacle(10, 60);
+		model.setObstacle(30, 80);
+		model.setObstacle(40, 120);
+		model.setObstacle(30, 160);
+		model.setObstacle(60, 80);
+		model.setObstacle(104, 150);
+		model.setObstacle(160, 170);
         model.setAgPos(0, 0, 0);
         return model;
     }
